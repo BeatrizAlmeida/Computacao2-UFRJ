@@ -110,7 +110,7 @@ public class AlbumTest {
     @Test
     public void testarGetItemColado() {
         popularAlbum(new int[] {1, 2, 3});
-        Figurinha figurinha = albumFigurinhas.getItemColado(2);
+        Figurinha figurinha = (Figurinha)albumFigurinhas.getItemColado(2);
 
         assertNotNull(figurinha);
 

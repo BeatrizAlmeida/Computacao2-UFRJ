@@ -20,4 +20,11 @@ public class Repositorio {
     public int getTotalFigurinhas() {
         return this.todasAsFigurinhas.size();
     }
+    
+    public Figurinha getFigurinha( int posicao) {
+    	if(posicao<1 || posicao>=getTotalFigurinhas()) {
+    		return null;
+    	}
+    	return this.todasAsFigurinhas.get(posicao-1);
+    }
 }

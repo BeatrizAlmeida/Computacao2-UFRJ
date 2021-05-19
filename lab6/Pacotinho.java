@@ -1,5 +1,7 @@
 package lab6;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 
 public class Pacotinho {
@@ -7,19 +9,13 @@ public class Pacotinho {
     private static final String PREFIXO_URL_IMAGENS = "http://www.nossoalbum.com.br/imagens/";
     private static final int POSICAO_MINIMA = 1; // Para não gerar nenhuma posição menor que 1
 	
-	Repositorio repo; 
-	int[] posicoesDesejadas;
-	Figurinha[] figurinhas; 
+    private List<Figurinha> figurinhas;
 	
     public Pacotinho(Repositorio repo, int[] posicoesDesejadas) {
-        this.repo = repo;
-        this.posicoesDesejadas = posicoesDesejadas;
-        
-        int quantidadeFigs = posicoesDesejadas.length;
-        this.figurinhas = new Figurinha[quantidadeFigs];
+    	figurinhas = new ArrayList<Figurinha>();
+    	int quantidadeFigs = posicoesDesejadas.length;
         for (int i = 0; i <= quantidadeFigs-1; i++) {
-            Figurinha fig = new Figurinha(posicoesDesejadas[i], PREFIXO_URL_IMAGENS + "figurinha" + posicoesDesejadas[i] );
-            figurinhas[i] = fig;
+            figurinhas.add(repo.getFigurinha(posicoesDesejadas[i]));
         }
     }
 
@@ -31,16 +27,17 @@ public class Pacotinho {
      * @param quantFigurinhas a quantidade de figurinhas a constar no pacotinho
      */
     public Pacotinho(Repositorio repo, int quantFigurinhas) {
-        this.figurinhas = new Figurinha[quantFigurinhas+1];
+    	figurinhas = new ArrayList<Figurinha>();
         Random gerador = new Random();
         for (int i = 1; i <= quantFigurinhas; i++) {
         	int posicao = gerador.nextInt(repo.getTotalFigurinhas()-POSICAO_MINIMA) + POSICAO_MINIMA;
-            Figurinha fig = new Figurinha(posicao, PREFIXO_URL_IMAGENS + "figurinha" + posicao );
-            figurinhas[i] = fig;
+        	 figurinhas.add(repo.getFigurinha(posicao));
         }
     }
 
     public Figurinha[] getFigurinhas() {
-        return this.figurinhas;
+    	Figurinha[] figurinhasArray = new Figurinha[figurinhas.size()];
+        figurinhas.toArray(figurinhasArray);
+        return figurinhas.toArray(figurinhasArray);
     }
 }

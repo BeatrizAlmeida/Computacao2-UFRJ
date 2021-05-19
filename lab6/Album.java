@@ -15,7 +15,7 @@ public class Album {
     private final Repositorio repositorio;
     private final int quantItensPorPacotinho;
 
-    private List<Figurinha> figurinhasColadas;  // direct addressing
+    private List<Colecionavel> figurinhasColadas;  // direct addressing
     private int quantFigurinhasColadas;
 
     private Map<Integer, Integer> contRepetidasByPosicao;
@@ -56,7 +56,7 @@ public class Album {
         }
     }
 
-    public Figurinha getItemColado(int posicao) {
+    public Colecionavel getItemColado(int posicao) {
         return figurinhasColadas.get(posicao);
     }
 
@@ -106,8 +106,9 @@ public class Album {
     		 
     		 for(int i = 1; i<=repositorio.getTotalFigurinhas(); i++) {
     			if(this.figurinhasColadas.get(i) == null) {
-    				Figurinha fig = new Figurinha(i, PREFIXO_URL_IMAGENS + "figurinha" + i);
-    				this.figurinhasColadas.add(i, fig);
+    				Figurinha fig = this.repositorio.getFigurinha(i);
+    				this.figurinhasColadas.set(i, fig);
+    				this.quantFigurinhasColadas++;
     			}
     		 }
     		 
