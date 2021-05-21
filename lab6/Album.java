@@ -6,7 +6,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class Album {
+public class Album <T extends Colecionavel> {
 
     public static final int PERCENTUAL_MINIMO_PARA_AUTO_COMPLETAR = 90;
     public static final Image IMAGEM_PADRAO_PARA_POSICAO_VAZIA = null;
@@ -15,8 +15,8 @@ public class Album {
     private final Repositorio repositorio;
     private final int quantItensPorPacotinho;
 
-    private List<Colecionavel> figurinhasColadas;  // direct addressing
-    private int quantFigurinhasColadas;
+    private List<T> itensColados;  // direct addressing
+    private int quantItensColados;
 
     private Map<Integer, Integer> contRepetidasByPosicao;
 
@@ -25,24 +25,24 @@ public class Album {
         this.quantItensPorPacotinho = quantItensPorPacotinho;
 
         int tamanhoFisicoDaLista = getTamanho() + 1;
-        this.figurinhasColadas = new ArrayList<>(tamanhoFisicoDaLista);
+        this.itensColados = new ArrayList<>(tamanhoFisicoDaLista);
         // inicializa as posições com nulls, para poder acessá-las diretamente
         for (int i = 0; i < tamanhoFisicoDaLista; i++) {
-            this.figurinhasColadas.add(null);
+            this.itensColados.add(null);
         }
-        this.quantFigurinhasColadas = 0;
+        this.quantItensColados = 0;
 
         this.contRepetidasByPosicao = new HashMap<>();
     }
 
     public void receberNovoPacotinho(Pacotinho pacotinho) {
-        Figurinha[] figurinhasDoPacotinho = pacotinho.getFigurinhas();
-        if (figurinhasDoPacotinho.length != this.quantItensPorPacotinho) {
+        Colecionavel[] itensDoPacotinho = pacotinho.getColecionaveis();
+        if (itensDoPacotinho.length != this.quantItensPorPacotinho) {
             return;  
         }
 
-        for (Figurinha fig : pacotinho.getFigurinhas()) {
-            final int posicao = fig.getPosicao();
+        for (Colecionavel item : pacotinho.getColecionaveis()) {
+            final int posicao = item.getPosicao();
             if (possuiItemColado(posicao)) {
                 // adiciona como repetida
                 int contRepetidas = this.contRepetidasByPosicao.getOrDefault(posicao, 0);
@@ -50,21 +50,21 @@ public class Album {
 
             } else {
                 // item inédito
-                this.figurinhasColadas.set(posicao, fig);
-                this.quantFigurinhasColadas++;
+                this.itensColados.set(posicao, (T)item);
+                this.quantItensColados++;
             }
         }
     }
 
     public Colecionavel getItemColado(int posicao) {
-        return figurinhasColadas.get(posicao);
+        return itensColados.get(posicao);
     }
 
     public boolean possuiItemColado(int posicao) {
-    	if(posicao<1 || posicao>=figurinhasColadas.size()) {
+    	if(posicao<1 || posicao>=itensColados.size()) {
     		return false;
     	}
-        if(this.figurinhasColadas.get(posicao)!= null) {
+        if(this.itensColados.get(posicao)!= null) {
         	return true;
         }
         return false;
@@ -78,7 +78,7 @@ public class Album {
     }
 
     public int getTamanho() {
-        return this.repositorio.getTotalFigurinhas();
+        return this.repositorio.getTotalItens();
     }
 
     public int getQuantItensColados() {
@@ -91,7 +91,7 @@ public class Album {
 //        return contador;
 
         // melhor jeito: atributo!
-        return this.quantFigurinhasColadas;
+        return this.quantItensColados;
     }
 
     public int getQuantItensFaltantes() {
@@ -99,16 +99,16 @@ public class Album {
     }
 
     public void autoCompletar() {
-    	 int minimoFigurinhasColadasParaAutoCompletar =
-    	            (int) (repositorio.getTotalFigurinhas() * PERCENTUAL_MINIMO_PARA_AUTO_COMPLETAR / 100f);
+    	 int minimoItensColadasParaAutoCompletar =
+    	            (int) (repositorio.getTotalItens() * PERCENTUAL_MINIMO_PARA_AUTO_COMPLETAR / 100f);
     	 
-    	 if(this.quantFigurinhasColadas>= minimoFigurinhasColadasParaAutoCompletar) {
+    	 if(this.quantItensColados>= minimoItensColadasParaAutoCompletar) {
     		 
-    		 for(int i = 1; i<=repositorio.getTotalFigurinhas(); i++) {
-    			if(this.figurinhasColadas.get(i) == null) {
-    				Figurinha fig = this.repositorio.getFigurinha(i);
-    				this.figurinhasColadas.set(i, fig);
-    				this.quantFigurinhasColadas++;
+    		 for(int i = 1; i<=repositorio.getTotalItens(); i++) {
+    			if(this.itensColados.get(i) == null) {
+    				Colecionavel item = this.repositorio.getItem(i);
+    				this.itensColados.set(i, (T)item);
+    				this.quantItensColados++;
     			}
     		 }
     		 

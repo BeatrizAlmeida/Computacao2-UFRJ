@@ -7,16 +7,21 @@ import static org.junit.Assert.*;
 
 public class AlbumTest {
 
-    private Album albumFigurinhas;
+    private Album<Figurinha> albumFigurinhas;
     private Repositorio repositorioFigurinhas;
 
+    private Album<Selo> albumSelos;
+    private Repositorio repositorioSelos;
+    
     private static final int TAMANHO_DO_ALBUM = 200;
     private static final int ITENS_POR_PACOTE = 3;
 
     @Before  
     public void setUp() {
-        this.repositorioFigurinhas = new Repositorio("album_copa2014", TAMANHO_DO_ALBUM);
+        this.repositorioFigurinhas = new Repositorio("album_copa2014", TAMANHO_DO_ALBUM, "figurinha");
         this.albumFigurinhas = new Album(repositorioFigurinhas, ITENS_POR_PACOTE);
+        this.repositorioSelos = new Repositorio("album_copa2014", TAMANHO_DO_ALBUM, "selo");
+        this.albumSelos = new Album(repositorioSelos, ITENS_POR_PACOTE);
     }
 
     private void popularAlbum(int[] posicoesDesejadas) {
@@ -127,5 +132,16 @@ public class AlbumTest {
                 "do álbum devem ser rejeitados",
                 0, albumFigurinhas.getQuantItensColados());
     }
-
+    
+    @Test
+    public void testarSeloEFigurinha() {
+    	Pacotinho pacote = new Pacotinho(this.repositorioFigurinhas, new int[] {1, 2, 3});
+        this.albumFigurinhas.receberNovoPacotinho(pacote);
+        assertEquals(TAMANHO_DO_ALBUM - 3,
+                this.albumFigurinhas.getQuantItensFaltantes());
+        Pacotinho pacoteSelos = new Pacotinho(this.repositorioSelos, new int[] {1, 2, 3});
+        this.albumSelos.receberNovoPacotinho(pacote);
+        assertEquals(TAMANHO_DO_ALBUM - 3,
+                this.albumSelos.getQuantItensFaltantes());
+    }
 }
