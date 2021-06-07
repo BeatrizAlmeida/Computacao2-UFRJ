@@ -31,7 +31,7 @@ public class BibliotecaTest {
         usuario1 = new Usuario("Fulano", cpfUsuario1);
 
         cpfUsuarioFantasma = 9876L;
-        usuarioFantasma = new Usuario("Usu√°rio Fantasma", cpfUsuarioFantasma);
+        usuarioFantasma = new Usuario("Usu·rio Fantasma", cpfUsuarioFantasma);
 
         livroRaro = new Livro("Algum modelo.Livro", "Algum autor", 1900);
         livroAbundante = new Livro("Outro livro", "Outro autor", 1980);
@@ -39,17 +39,17 @@ public class BibliotecaTest {
 
         biblioteca = new Biblioteca();
         biblioteca.cadastrarUsuario(usuario1);
-        biblioteca.incluirLivroNoAcervo(livroRaro, 1);  // importante incluir uma √∫nica unidade deste livro --- n√£o mudar!
+        biblioteca.incluirLivroNoAcervo(livroRaro, 1);  // importante incluir uma ˙nica unidade deste livro --- n„o mudar!
         biblioteca.incluirLivroNoAcervo(livroAbundante, 5);
     }
 
     @Test
     public void testeAdquirirLivros() {
-        Livro novoLivro = new Livro("Um modelo.Livro Rec√©m-Adquirido", "Algum autor", 2018);
+        Livro novoLivro = new Livro("Um modelo.Livro RecÈm-Adquirido", "Algum autor", 2018);
         biblioteca.incluirLivroNoAcervo(novoLivro, 10);
-        assertEquals("A aquisi√ß√£o de um livro deve atualizar a quantidade daquele livro na estante",
+        assertEquals("A aquisiÁ„o de um livro deve atualizar a quantidade daquele livro na estante",
                 10, biblioteca.getQuantidadeDeLivrosNaEstante(novoLivro));
-        assertEquals("A aquisi√ß√£o de um livro deve atualizar a quantidade total de livros na estante",
+        assertEquals("A aquisiÁ„o de um livro deve atualizar a quantidade total de livros na estante",
                 16, biblioteca.getQuantidadeDeLivrosNaEstante());
     }
 
@@ -61,14 +61,14 @@ public class BibliotecaTest {
 
     @Test
     public void testeGetUsuario() {
-        assertEquals("Um usu√°rio cadastrado deve ser encontr√°vel a partir de seu CPF",
+        assertEquals("Um usu·rio cadastrado deve ser encontr·vel a partir de seu CPF",
                 usuario1, biblioteca.getUsuario(cpfUsuario1));
     }
 
     @Test
     public void testeChavePrimariaUsuario() {
         Usuario novaInstanciaDoMesmoUsuario = new Usuario("Qualquer Nome", cpfUsuario1);
-        assertEquals("Um usu√°rio deve ser identificado exclusivamente pelo seu CPF",
+        assertEquals("Um usu·rio deve ser identificado exclusivamente pelo seu CPF",
                 novaInstanciaDoMesmoUsuario, usuario1);
     }
 
@@ -77,7 +77,7 @@ public class BibliotecaTest {
         long cpfUsuario2 = 2222L;
         Usuario usuario2 = new Usuario("Beltrano", cpfUsuario2);
         biblioteca.cadastrarUsuario(usuario2);
-        assertEquals("O cadastro de um novo usuario deve atualizar o total de usu√°rios cadastrados",
+        assertEquals("O cadastro de um novo usuario deve atualizar o total de usu·rios cadastrados",
                 2, biblioteca.getTotalDeUsuariosCadastrados());
     }
 
@@ -88,23 +88,23 @@ public class BibliotecaTest {
         Usuario usuarioRepetido = new Usuario(novoNome, cpfUsuario1);
         usuarioRepetido.setEndereco(novoEndereco);
         biblioteca.cadastrarUsuario(usuarioRepetido);
-        assertEquals("O cadastro de um usuario j√° cadastrado n√£o deve atualizar o total de usu√°rios cadastrados",
+        assertEquals("O cadastro de um usuario j· cadastrado n„o deve atualizar o total de usu·rios cadastrados",
                 1, biblioteca.getTotalDeUsuariosCadastrados());
         Usuario usuarioRetornadoPelaBiblioteca = biblioteca.getUsuario(cpfUsuario1);
-        assertEquals("O cadastro de um usu√°rio j√° cadastrado deve atualizar seu nome",
+        assertEquals("O cadastro de um usu·rio j· cadastrado deve atualizar seu nome",
                 novoNome, usuarioRetornadoPelaBiblioteca.getNome());
-        assertEquals("O cadastro de um usu√°rio j√° cadastrado deve atualizar seu endere√ßo",
+        assertEquals("O cadastro de um usu·rio j· cadastrado deve atualizar seu endereÁo",
                 novoEndereco, usuarioRetornadoPelaBiblioteca.getEndereco());
     }
 
     @Test
     public void testeEmprestarLivro()
             throws UsuarioNaoCadastradoException, LimiteEmprestimosExcedidoException, DevolucaoInvalidaException {
-        assertTrue("A biblioteca deve poder emprestar livros (que estejam dispon√≠veis) para usu√°rios que n√£o tenham" +
-                " excedido o limite de empr√©stimos", biblioteca.emprestarLivro(livroAbundante, usuario1));
-        assertEquals("O empr√©stimo de um livro deve atualizar a quantidade de livros devidos por aquele usu√°rio",
+        assertTrue("A biblioteca deve poder emprestar livros (que estejam disponÌveis) para usu·rios que n„o tenham" +
+                " excedido o limite de emprÈstimos", biblioteca.emprestarLivro(livroAbundante, usuario1));
+        assertEquals("O emprÈstimo de um livro deve atualizar a quantidade de livros devidos por aquele usu·rio",
                 1, biblioteca.getQuantidadeDeLivrosDevidos(usuario1));
-        assertEquals("O empr√©stimo de um livro deve atualizar a quantidade daquele livro na estante",
+        assertEquals("O emprÈstimo de um livro deve atualizar a quantidade daquele livro na estante",
                 4, biblioteca.getQuantidadeDeLivrosNaEstante(livroAbundante));
     }
 
@@ -113,9 +113,9 @@ public class BibliotecaTest {
             throws UsuarioNaoCadastradoException, LimiteEmprestimosExcedidoException, DevolucaoInvalidaException {
         biblioteca.emprestarLivro(livroAbundante, usuario1);
         biblioteca.receberDevolucaoLivro(livroAbundante, usuario1);
-        assertEquals("A devolu√ß√£o de um livro deve atualizar a quantidade de livros devidos por aquele usu√°rio",
+        assertEquals("A devoluÁ„o de um livro deve atualizar a quantidade de livros devidos por aquele usu·rio",
                 0, biblioteca.getQuantidadeDeLivrosDevidos(usuario1));
-        assertEquals("A devolu√ß√£o de um livro deve atualizar a quantidade daquele livro na estante",
+        assertEquals("A devoluÁ„o de um livro deve atualizar a quantidade daquele livro na estante",
                 5, biblioteca.getQuantidadeDeLivrosNaEstante(livroAbundante));
     }
 
@@ -124,14 +124,14 @@ public class BibliotecaTest {
             throws UsuarioNaoCadastradoException, LimiteEmprestimosExcedidoException {
         assertFalse("A tentativa de emprestar um livro com menos de " +
                 Biblioteca.MIN_COPIAS_PARA_PODER_EMPRESTAR +
-                " c√≥pias na estante deve retornar false, sem lan√ßar exce√ß√µes",
+                " cÛpias na estante deve retornar false, sem lanÁar exceÁıes",
                 biblioteca.emprestarLivro(livroRaro, usuario1));
     }
 
     @Test
     public void testeEmprestarLivroInexistente()
             throws UsuarioNaoCadastradoException, LimiteEmprestimosExcedidoException {
-        assertFalse("A tentativa de emprestar um livro n√£o presente no acervo deve retornar false, sem lan√ßar exce√ß√µes",
+        assertFalse("A tentativa de emprestar um livro n„o presente no acervo deve retornar false, sem lanÁar exceÁıes",
                 biblioteca.emprestarLivro(livroInexistente, usuario1));
     }
 
@@ -140,7 +140,7 @@ public class BibliotecaTest {
             throws LimiteEmprestimosExcedidoException {
         try {
             biblioteca.emprestarLivro(livroAbundante, usuarioFantasma);
-            fail("A tentativa de empr√©stimo para usu√°rio n√£o cadastrado deve lan√ßar uma excecao.UsuarioNaoCadastradoException");
+            fail("A tentativa de emprÈstimo para usu·rio n„o cadastrado deve lanÁar uma excecao.UsuarioNaoCadastradoException");
         } catch (UsuarioNaoCadastradoException e) {
             // ok, teste passou
         }
@@ -150,22 +150,22 @@ public class BibliotecaTest {
     public void testeEmprestarLivroParaUsuarioComMuitosLivrosDevidos()
             throws UsuarioNaoCadastradoException, LimiteEmprestimosExcedidoException {
 
-        // garante que haver√° c√≥pias do livro suficientes (para este teste) nas estantes da biblioteca
+        // garante que haver· cÛpias do livro suficientes (para este teste) nas estantes da biblioteca
         int copiasRequeridasParaOTeste = Biblioteca.MAX_LIVROS_DEVIDOS + Biblioteca.MIN_COPIAS_PARA_PODER_EMPRESTAR;
         biblioteca.incluirLivroNoAcervo(livroAbundante,
                 copiasRequeridasParaOTeste - biblioteca.getQuantidadeDeLivrosNaEstante(livroAbundante));
 
-        // vamos pegar emprestado o m√°ximo poss√≠vel de livros
+        // vamos pegar emprestado o m·ximo possÌvel de livros
         for(int i = 0; i < Biblioteca.MAX_LIVROS_DEVIDOS; i++) {
             biblioteca.emprestarLivro(livroAbundante, usuario1);
         }
 
-        // agora vamos tentar pegar emprestado ainda mais um livro --- n√£o deve ser permitido!
+        // agora vamos tentar pegar emprestado ainda mais um livro --- n„o deve ser permitido!
         try {
             biblioteca.emprestarLivro(livroAbundante, usuario1);
             fail("Um mesmo usuario nao pode pegar emprestado mais do que " +
                     Biblioteca.MAX_LIVROS_DEVIDOS +
-                    " livros --- uma excecao.LimiteEmprestimosExcedidoException deve ser lan√ßada nesse caso");
+                    " livros --- uma excecao.LimiteEmprestimosExcedidoException deve ser lanÁada nesse caso");
         } catch (LimiteEmprestimosExcedidoException e) {
             // ok, teste passou
         }
@@ -175,7 +175,7 @@ public class BibliotecaTest {
     public void testeDevolucaoLivroNaoEmprestado() {
         try {
             biblioteca.receberDevolucaoLivro(livroRaro, usuario1);
-            fail("A tentativa de devolver um livro que n√£o foi emprestado (√†quele usu√°rio) deve " +
+            fail("A tentativa de devolver um livro que n„o foi emprestado (‡quele usu·rio) deve " +
                     "resultar em uma excecao.DevolucaoInvalidaException");
         } catch (DevolucaoInvalidaException e) {
             // ok, teste passou
@@ -184,8 +184,8 @@ public class BibliotecaTest {
 
     @Test
     public void testeGetQuantidadeDeLivrosDevidosPorUsuarioNaoCadastrado() {
-        assertEquals("Usu√°rios desconhecidos nunca est√£o devendo livros, e o m√©todo deve simplesmente retornar zero, " +
-                "sem lan√ßar exce√ß√£o",
+        assertEquals("Usu·rios desconhecidos nunca est„o devendo livros, e o mÈtodo deve simplesmente retornar zero, " +
+                "sem lanÁar exceÁ„o",
                 0, biblioteca.getQuantidadeDeLivrosDevidos(usuarioFantasma));
     }
 }
